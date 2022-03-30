@@ -18,78 +18,19 @@
 <body onload="loadPokemon()">
 
     <div class="d-none" id="overlay" onclick="closeTask()"></div>
-    <div class="d-none" id="openPokedexCont">
-        <div class="openPokadex">
-            <img id="backArrow" src="img/backArrow.ico" onclick="closeTask()">
-            <div class="nameOrder">
-                <h1 id="openPokemonName">Name</h1>
-                <div id="order"></div>
-            </div>
-            <div class="openTypes">
-                <div class="openType" id="openType1"></div>
-                <!-- <div class="openType" id="openType2"></div> -->
-            </div>
-        </div>
-        <div id="openPokemonInfo">
-            <img id="openPokemonImg">
-            <h2>About</h2>
-            <table class="width" >
-                <tr>
-                    <td>Hight</td>
-                    <td class="textRight" id="height"></td>
-                </tr>
-                <tr>
-                    <td>Weight</td>
-                    <td class="textRight" id="weight"></td>
-                </tr>
-            </table>
-            <h2>Base States</h2>
-            <table class="width" >
-                <tr>
-                    <td>HP</td>
-                    <td class="bold textRight" id="hp"></td>
-                </tr>
-                <tr>
-                    <td>Attack</td>
-                    <td class="bold textRight" id="attack"></td>
-                </tr>
-                <tr>
-                    <td>Defense</td>
-                    <td class="bold textRight" id="defense"></td>
-                </tr>
-                <tr>
-                    <td>Sp. Atk</td>
-                    <td class="bold textRight" id="spAtk"></td>
-                </tr>
-                <tr>
-                    <td>Sp. Def</td>
-                    <td class="bold textRight" id="spDef"></td>
-                </tr>
-                <tr>
-                    <td>Speed</td>
-                    <td class="bold textRight" id="speed"></td>
-                </tr>
-                <tr>
-                    <td>Total</td>
-                    <td class="bold textRight" id="total"></td>
-                </tr>
-            </table>
-        </div>
-    </div>
+    <div class="d-none" id="openPokedexCont"></div>
 
-    <h1 class="h1">Pokedex</h1>
-    <div class="inputBtn">
-        <input id="input" placeholder="Suchen">
-        <button id="btn">Go</button>
+    
+    <div class="header">
+        <h1 class="h11">Pokedex</h1>
+        <div class="inputBtn">
+            <input id="input" placeholder="Suchen">
+            <button id="btn">Go</button>
+        </div>
     </div>
     <div id="pokedexs">
         <div id="pokedex"></div>
     </div>
-
-
-
-
-
 
 </body>
 
