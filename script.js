@@ -1,6 +1,11 @@
 let allPokemons = [];
 let searchPokemon = [];
 
+
+/**
+ * load api objects, 1 - 20, from server and push to the array
+ * 
+ */
 async function loadPokemon() {
     for (let id = 1; id < 20; id++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${id}`;
@@ -12,7 +17,10 @@ async function loadPokemon() {
     renderPokemons();
     setTimeout(loadPokemons, 1500)
 }
-
+/**
+ * load api objects, 21 - 304, from server and push to the array
+ * 
+ */
 async function loadPokemons() {
     for (let id = 21; id < 304; id++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${id}`;
@@ -24,6 +32,11 @@ async function loadPokemons() {
     renderPokemons();
 }
 
+
+/**
+ * render all searched pokemons from inputfield
+ * 
+ */
 function renderSearchPokemons() {
     let content = document.getElementById('pokedex');
     content.innerHTML = '';
@@ -54,6 +67,10 @@ function renderSearchPokemons() {
 }
 
 
+/**
+ * render all pokemons
+ * 
+ */
 function renderPokemons() {
     if (searchPokemon.length > 0) {
         renderSearchPokemons();
@@ -88,13 +105,18 @@ function renderPokemons() {
 }
 
 
+/**
+ * open a pokedex
+ * 
+ * @param {number} i -  passes the position of the object
+ */
 function openTask(i) {
     document.getElementById('overlay').classList.remove('d-none');
     document.getElementById('openPokedexCont').classList.remove('d-none');
     let pokemon = allPokemons[i]['types']['0']['type']['name'];
     let name = allPokemons[i]['name'];
     name = name[0].toUpperCase() + name.substring(1);
-    let type = allPokemons[i]['types']['0']['type']['name']; 4
+    let type = allPokemons[i]['types']['0']['type']['name']; 
     type = type[0].toUpperCase() + type.substring(1);
     document.getElementById('openPokedexCont').innerHTML = generateHTML(name, pokemon, type);
     let order = allPokemons[i]['id'];
@@ -120,7 +142,14 @@ function openTask(i) {
     calculate(order, height, weight);
     total(i);
 }
-
+/**
+ * generates HTML and returns the generated to the openTask
+ *
+ * @param {string} name - passes the name of the pokemeon with big letter
+ * @param {string} pokemon - passe the type of pokemon
+ * @param {string} type - passes the name of the type with big letter
+ * @returns - HTML-template
+ */
 function generateHTML(name, pokemon, type) {
     return `
             <div class="openPokadex ${pokemon}">
@@ -179,6 +208,14 @@ function generateHTML(name, pokemon, type) {
         `;
 }
 
+
+/**
+ * calculate the height ans add strings
+ * 
+ * @param {number} order - passes the number of pokemon and add a string
+ * @param {number} height - passes the height of pokemon 
+ * @param {number} weight - passes the weight op pokemon and add a string
+ */
 function calculate(order, height, weight) {
     document.getElementById('openOrder').innerHTML = `# ${order}`;
     height = height * 10;
@@ -186,6 +223,12 @@ function calculate(order, height, weight) {
     document.getElementById('weight').innerHTML = `<b>${weight}</b> kg`;
 }
 
+
+/**
+ * calculate the total of abouts
+ * 
+ * @param {number} i - passes the position of the object
+ */
 function total(i) {
     let hp = allPokemons[i]['stats']['0']['base_stat'];
     let attack = allPokemons[i]['stats']['1']['base_stat'];
@@ -197,21 +240,32 @@ function total(i) {
     document.getElementById('total').innerHTML = total;
 }
 
+
+/**
+ * cloese the open task
+ * 
+ */
 function closeTask() {
     document.getElementById('overlay').classList.add('d-none');
     document.getElementById('openPokedexCont').classList.add('d-none');
 }
 
-
-
-
+/**
+ * passes the letters() from the inputfield to the function filterName()
+ * 
+ */
 window.addEventListener('load', function () {
     const input = document.querySelector('input');
     input.addEventListener('input', filterName);
 })
 
-function filterName(e) {
 
+/**
+ * filters the array by letter, and pushes the filtered objects into the searchPokemon-array and renders them
+ * 
+ * @param {inputEvent} e - passes the letter
+ */
+function filterName(e) {
     let filteredlist = allPokemons.filter(p => p.name.startsWith(e.srcElement.value));
     console.log(filteredlist);
     searchPokemon = [];
