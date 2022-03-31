@@ -15,7 +15,7 @@ async function loadPokemon() {
         allPokemons.push(currentPokemon);
     }
     renderPokemons();
-    setTimeout(loadPokemons, 1500)
+    setTimeout(loadPokemons, 5000)
 }
 /**
  * load api objects, 21 - 304, from server and push to the array
@@ -106,41 +106,83 @@ function renderPokemons() {
 
 
 /**
+ * open a pokedex from the searchPokemon-array
+ * 
+ * @param {*} i - passes the position of the object
+ */
+function renderSearchTask(i) {
+    document.getElementById('overlay').classList.remove('d-none');
+        document.getElementById('openPokedexCont').classList.remove('d-none');
+        let pokemon = searchPokemon[0][i]['types']['0']['type']['name'];
+        let name = searchPokemon[0][i]['name'];
+        name = name[0].toUpperCase() + name.substring(1);
+        let type = searchPokemon[0][i]['types']['0']['type']['name'];
+        type = type[0].toUpperCase() + type.substring(1);
+        document.getElementById('openPokedexCont').innerHTML = generateHTML(name, pokemon, type);
+        let order = searchPokemon[0][i]['id'];
+        document.getElementById('openPokemonImg').src = searchPokemon[0][i]['sprites']['other']['dream_world']['front_default'];
+        let height = searchPokemon[0][i]['height'];
+        let weight = document.getElementById('weight').innerHTML = searchPokemon[0][i]['weight'];
+        document.getElementById('hp').innerHTML = searchPokemon[0][i]['stats']['0']['base_stat'];
+        document.getElementById('attack').innerHTML = searchPokemon[0][i]['stats']['1']['base_stat'];
+        document.getElementById('defense').innerHTML = searchPokemon[0][i]['stats']['2']['base_stat'];
+        document.getElementById('spAtk').innerHTML = searchPokemon[0][i]['stats']['3']['base_stat'];
+        document.getElementById('spDef').innerHTML = searchPokemon[0][i]['stats']['4']['base_stat'];
+        document.getElementById('speed').innerHTML = searchPokemon[0][i]['stats']['5']['base_stat'];
+        if (pokemon == 'normal') {
+            document.getElementById('openPokadex').classList.add('changeColor');
+            document.getElementById('backArrow').classList.add('changeArrow');
+        } else if (pokemon == 'electric') {
+            document.getElementById('openPokadex').classList.add('changeColor');
+            document.getElementById('backArrow').classList.add('changeArrow');
+        } else if (pokemon == 'ice') {
+            document.getElementById('openPokadex').classList.add('changeColor');
+            document.getElementById('backArrow').classList.add('changeArrow');
+        }
+        calculate(order, height, weight);
+        total(i);
+}
+
+/**
  * open a pokedex
  * 
- * @param {number} i -  passes the position of the object
+ * @param {number} i - passes the position of the object
  */
 function openTask(i) {
-    document.getElementById('overlay').classList.remove('d-none');
-    document.getElementById('openPokedexCont').classList.remove('d-none');
-    let pokemon = allPokemons[i]['types']['0']['type']['name'];
-    let name = allPokemons[i]['name'];
-    name = name[0].toUpperCase() + name.substring(1);
-    let type = allPokemons[i]['types']['0']['type']['name']; 
-    type = type[0].toUpperCase() + type.substring(1);
-    document.getElementById('openPokedexCont').innerHTML = generateHTML(name, pokemon, type);
-    let order = allPokemons[i]['id'];
-    document.getElementById('openPokemonImg').src = allPokemons[i]['sprites']['other']['dream_world']['front_default'];
-    let height = allPokemons[i]['height'];
-    let weight = document.getElementById('weight').innerHTML = allPokemons[i]['weight'];
-    document.getElementById('hp').innerHTML = allPokemons[i]['stats']['0']['base_stat'];
-    document.getElementById('attack').innerHTML = allPokemons[i]['stats']['1']['base_stat'];
-    document.getElementById('defense').innerHTML = allPokemons[i]['stats']['2']['base_stat'];
-    document.getElementById('spAtk').innerHTML = allPokemons[i]['stats']['3']['base_stat'];
-    document.getElementById('spDef').innerHTML = allPokemons[i]['stats']['4']['base_stat'];
-    document.getElementById('speed').innerHTML = allPokemons[i]['stats']['5']['base_stat'];
-    if (pokemon == 'normal') {
-        document.getElementById('openPokadex').classList.add('changeColor');
-        document.getElementById('backArrow').classList.add('changeArrow');
-    } else if (pokemon == 'electric') {
-        document.getElementById('openPokadex').classList.add('changeColor');
-        document.getElementById('backArrow').classList.add('changeArrow');
-    } else if (pokemon == 'ice') {
-        document.getElementById('openPokadex').classList.add('changeColor');
-        document.getElementById('backArrow').classList.add('changeArrow');
+    if (searchPokemon.length > 0) {
+        renderSearchTask(i);
+    } else {
+        document.getElementById('overlay').classList.remove('d-none');
+        document.getElementById('openPokedexCont').classList.remove('d-none');
+        let pokemon = allPokemons[i]['types']['0']['type']['name'];
+        let name = allPokemons[i]['name'];
+        name = name[0].toUpperCase() + name.substring(1);
+        let type = allPokemons[i]['types']['0']['type']['name'];
+        type = type[0].toUpperCase() + type.substring(1);
+        document.getElementById('openPokedexCont').innerHTML = generateHTML(name, pokemon, type);
+        let order = allPokemons[i]['id'];
+        document.getElementById('openPokemonImg').src = allPokemons[i]['sprites']['other']['dream_world']['front_default'];
+        let height = allPokemons[i]['height'];
+        let weight = document.getElementById('weight').innerHTML = allPokemons[i]['weight'];
+        document.getElementById('hp').innerHTML = allPokemons[i]['stats']['0']['base_stat'];
+        document.getElementById('attack').innerHTML = allPokemons[i]['stats']['1']['base_stat'];
+        document.getElementById('defense').innerHTML = allPokemons[i]['stats']['2']['base_stat'];
+        document.getElementById('spAtk').innerHTML = allPokemons[i]['stats']['3']['base_stat'];
+        document.getElementById('spDef').innerHTML = allPokemons[i]['stats']['4']['base_stat'];
+        document.getElementById('speed').innerHTML = allPokemons[i]['stats']['5']['base_stat'];
+        if (pokemon == 'normal') {
+            document.getElementById('openPokadex').classList.add('changeColor');
+            document.getElementById('backArrow').classList.add('changeArrow');
+        } else if (pokemon == 'electric') {
+            document.getElementById('openPokadex').classList.add('changeColor');
+            document.getElementById('backArrow').classList.add('changeArrow');
+        } else if (pokemon == 'ice') {
+            document.getElementById('openPokadex').classList.add('changeColor');
+            document.getElementById('backArrow').classList.add('changeArrow');
+        }
+        calculate(order, height, weight);
+        total(i);
     }
-    calculate(order, height, weight);
-    total(i);
 }
 /**
  * generates HTML and returns the generated to the openTask
@@ -250,8 +292,9 @@ function closeTask() {
     document.getElementById('openPokedexCont').classList.add('d-none');
 }
 
+
 /**
- * passes the letters() from the inputfield to the function filterName()
+ * passes the letter(s) from the inputfield to the function filterName()
  * 
  */
 window.addEventListener('load', function () {
