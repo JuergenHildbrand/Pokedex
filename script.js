@@ -17,12 +17,14 @@ async function loadPokemon() {
     renderPokemons();
     setTimeout(loadPokemons, 5000)
 }
+
+
 /**
- * load api objects, 21 - 304, from server and push to the array
+ * load api objects, 21 - 151, from server and push to the array
  * 
  */
 async function loadPokemons() {
-    for (let id = 21; id < 304; id++) {
+    for (let id = 21; id < 152; id++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${id}`;
         let response = await fetch(url);
         let currentPokemon = await response.json();
@@ -45,24 +47,9 @@ function renderSearchPokemons() {
         let name = pokemon['name'];
         let type1 = pokemon['types']['0']['type']['name'];
         let order = searchPokemon[0][i]['id'];
-        content.innerHTML += `
-            <div class="${pokemon['types']['0']['type']['name']}" id="pokadexInfo" onclick="openTask(${i})">
-                <div class="nameType" id="nameType${i}">
-                    <h1 class="h1">${name[0].toUpperCase() + name.substring(1)}</h1>
-                    <div class="type"><b>${type1[0].toUpperCase() + type1.substring(1)}</b></div>
-                    <div class="order"># ${order}</div>
-                </div>
-                <img id="pokemonImg${i}" class="pokemonImg">
-            </div>
-        `;
+        content.innerHTML += generateRenderPokemonsHTML(i, pokemon, name, type1, order);      
         document.getElementById('pokemonImg' + i).src = pokemon['sprites']['other']['dream_world']['front_default'];
-        if (pokemon['types']['0']['type']['name'] == 'normal') {
-            document.getElementById('nameType' + i).classList.add('changeColor');
-        } else if (pokemon['types']['0']['type']['name'] == 'electric') {
-            document.getElementById('nameType' + i).classList.add('changeColor');
-        } else if (pokemon['types']['0']['type']['name'] == 'ice') {
-            document.getElementById('nameType' + i).classList.add('changeColor');
-        }
+        changeColors(pokemon, i);
     }
 }
 
@@ -82,7 +69,26 @@ function renderPokemons() {
             let name = pokemon['name'];
             let type1 = pokemon['types']['0']['type']['name'];
             let order = allPokemons[i]['id'];
-            content.innerHTML += `
+            content.innerHTML += generateRenderPokemonsHTML(i, pokemon, name, type1, order);
+            document.getElementById('pokemonImg' + i).src = pokemon['sprites']['other']['dream_world']['front_default'];           
+            changeColors(pokemon, i);
+        }
+    }
+}
+
+
+/**
+ * generates HTML and returns the generated to renderPokemons() or renderSearchPokemons()
+ * 
+ * @param {number} i - passes the position of pokemon
+ * @param {object} pokemon - passes the object
+ * @param {string} name - passes the name
+ * @param {string} type1 - passes the type
+ * @param {number} order - passes the number of pokemon
+ * @returns - HTML-template
+ */
+function generateRenderPokemonsHTML(i, pokemon, name, type1, order) {
+    return  `
             <div class="${pokemon['types']['0']['type']['name']}" id="pokadexInfo" onclick="openTask(${i})">
                 <div class="nameType" id="nameType${i}">
                     <h1 class="h1">${name[0].toUpperCase() + name.substring(1)}</h1>
@@ -91,16 +97,23 @@ function renderPokemons() {
                 </div>
                 <img id="pokemonImg${i}" class="pokemonImg">
             </div>
-        `;
-            document.getElementById('pokemonImg' + i).src = pokemon['sprites']['other']['dream_world']['front_default'];
-            if (pokemon['types']['0']['type']['name'] == 'normal') {
-                document.getElementById('nameType' + i).classList.add('changeColor');
-            } else if (pokemon['types']['0']['type']['name'] == 'electric') {
-                document.getElementById('nameType' + i).classList.add('changeColor');
-            } else if (pokemon['types']['0']['type']['name'] == 'ice') {
-                document.getElementById('nameType' + i).classList.add('changeColor');
-            }
-        }
+        `;  
+}
+
+
+/**
+ * change colors (for example, if backgroun-color and color is whith)
+ * 
+ * @param {object} pokemon - passes the object
+ * @param {number} i - passes the position of pokemon
+ */
+function changeColors(pokemon, i) {
+    if (pokemon['types']['0']['type']['name'] == 'normal') {
+        document.getElementById('nameType' + i).classList.add('changeColor');
+    } else if (pokemon['types']['0']['type']['name'] == 'electric') {
+        document.getElementById('nameType' + i).classList.add('changeColor');
+    } else if (pokemon['types']['0']['type']['name'] == 'ice') {
+        document.getElementById('nameType' + i).classList.add('changeColor');
     }
 }
 
@@ -108,40 +121,42 @@ function renderPokemons() {
 /**
  * open a pokedex from the searchPokemon-array
  * 
- * @param {*} i - passes the position of the object
+ * @param {number} i - passes the position of the object
  */
 function renderSearchTask(i) {
     document.getElementById('overlay').classList.remove('d-none');
-        document.getElementById('openPokedexCont').classList.remove('d-none');
-        let pokemon = searchPokemon[0][i]['types']['0']['type']['name'];
-        let name = searchPokemon[0][i]['name'];
-        name = name[0].toUpperCase() + name.substring(1);
-        let type = searchPokemon[0][i]['types']['0']['type']['name'];
-        type = type[0].toUpperCase() + type.substring(1);
-        document.getElementById('openPokedexCont').innerHTML = generateHTML(name, pokemon, type);
-        let order = searchPokemon[0][i]['id'];
-        document.getElementById('openPokemonImg').src = searchPokemon[0][i]['sprites']['other']['dream_world']['front_default'];
-        let height = searchPokemon[0][i]['height'];
-        let weight = document.getElementById('weight').innerHTML = searchPokemon[0][i]['weight'];
-        document.getElementById('hp').innerHTML = searchPokemon[0][i]['stats']['0']['base_stat'];
-        document.getElementById('attack').innerHTML = searchPokemon[0][i]['stats']['1']['base_stat'];
-        document.getElementById('defense').innerHTML = searchPokemon[0][i]['stats']['2']['base_stat'];
-        document.getElementById('spAtk').innerHTML = searchPokemon[0][i]['stats']['3']['base_stat'];
-        document.getElementById('spDef').innerHTML = searchPokemon[0][i]['stats']['4']['base_stat'];
-        document.getElementById('speed').innerHTML = searchPokemon[0][i]['stats']['5']['base_stat'];
-        if (pokemon == 'normal') {
-            document.getElementById('openPokadex').classList.add('changeColor');
-            document.getElementById('backArrow').classList.add('changeArrow');
-        } else if (pokemon == 'electric') {
-            document.getElementById('openPokadex').classList.add('changeColor');
-            document.getElementById('backArrow').classList.add('changeArrow');
-        } else if (pokemon == 'ice') {
-            document.getElementById('openPokadex').classList.add('changeColor');
-            document.getElementById('backArrow').classList.add('changeArrow');
-        }
-        calculate(order, height, weight);
-        total(i);
+    document.getElementById('openPokedexCont').classList.remove('d-none');
+    let pokemon = searchPokemon[0][i]['types']['0']['type']['name'];
+    let name = searchPokemon[0][i]['name'];
+    name = name[0].toUpperCase() + name.substring(1);
+    let type = searchPokemon[0][i]['types']['0']['type']['name'];
+    type = type[0].toUpperCase() + type.substring(1);
+    document.getElementById('openPokedexCont').innerHTML = generateOpenTaskHTML(name, pokemon, type);    
+    valuesSearchTask(i);
+    changeColorsOpenTask(pokemon);   
+    total(i);
 }
+
+
+/**
+ * search values in array and give back to renderSearchTask()
+ * 
+ * @param {number} i - passes the position of the object
+ */
+function valuesSearchTask(i) {
+    let order = searchPokemon[0][i]['id'];
+    document.getElementById('openPokemonImg').src = searchPokemon[0][i]['sprites']['other']['dream_world']['front_default'];
+    let height = searchPokemon[0][i]['height'];
+    let weight = document.getElementById('weight').innerHTML = searchPokemon[0][i]['weight'];
+    document.getElementById('hp').innerHTML = searchPokemon[0][i]['stats']['0']['base_stat'];
+    document.getElementById('attack').innerHTML = searchPokemon[0][i]['stats']['1']['base_stat'];
+    document.getElementById('defense').innerHTML = searchPokemon[0][i]['stats']['2']['base_stat'];
+    document.getElementById('spAtk').innerHTML = searchPokemon[0][i]['stats']['3']['base_stat'];
+    document.getElementById('spDef').innerHTML = searchPokemon[0][i]['stats']['4']['base_stat'];
+    document.getElementById('speed').innerHTML = searchPokemon[0][i]['stats']['5']['base_stat'];
+    calculate(order, height, weight);
+}
+
 
 /**
  * open a pokedex
@@ -159,40 +174,23 @@ function openTask(i) {
         name = name[0].toUpperCase() + name.substring(1);
         let type = allPokemons[i]['types']['0']['type']['name'];
         type = type[0].toUpperCase() + type.substring(1);
-        document.getElementById('openPokedexCont').innerHTML = generateHTML(name, pokemon, type);
-        let order = allPokemons[i]['id'];
-        document.getElementById('openPokemonImg').src = allPokemons[i]['sprites']['other']['dream_world']['front_default'];
-        let height = allPokemons[i]['height'];
-        let weight = document.getElementById('weight').innerHTML = allPokemons[i]['weight'];
-        document.getElementById('hp').innerHTML = allPokemons[i]['stats']['0']['base_stat'];
-        document.getElementById('attack').innerHTML = allPokemons[i]['stats']['1']['base_stat'];
-        document.getElementById('defense').innerHTML = allPokemons[i]['stats']['2']['base_stat'];
-        document.getElementById('spAtk').innerHTML = allPokemons[i]['stats']['3']['base_stat'];
-        document.getElementById('spDef').innerHTML = allPokemons[i]['stats']['4']['base_stat'];
-        document.getElementById('speed').innerHTML = allPokemons[i]['stats']['5']['base_stat'];
-        if (pokemon == 'normal') {
-            document.getElementById('openPokadex').classList.add('changeColor');
-            document.getElementById('backArrow').classList.add('changeArrow');
-        } else if (pokemon == 'electric') {
-            document.getElementById('openPokadex').classList.add('changeColor');
-            document.getElementById('backArrow').classList.add('changeArrow');
-        } else if (pokemon == 'ice') {
-            document.getElementById('openPokadex').classList.add('changeColor');
-            document.getElementById('backArrow').classList.add('changeArrow');
-        }
-        calculate(order, height, weight);
+        document.getElementById('openPokedexCont').innerHTML = generateOpenTaskHTML(name, pokemon, type);
+        values(i);
+        changeColorsOpenTask(pokemon);
         total(i);
     }
 }
+
+
 /**
- * generates HTML and returns the generated to the openTask
+ * generates HTML and returns the generated to openTask() or renderSearchTask()
  *
  * @param {string} name - passes the name of the pokemeon with big letter
  * @param {string} pokemon - passe the type of pokemon
  * @param {string} type - passes the name of the type with big letter
  * @returns - HTML-template
  */
-function generateHTML(name, pokemon, type) {
+function generateOpenTaskHTML(name, pokemon, type) {
     return `
             <div class="openPokadex ${pokemon}">
                 <img id="backArrow" src="img/backArrow.ico" onclick="closeTask()">
@@ -250,6 +248,44 @@ function generateHTML(name, pokemon, type) {
         `;
 }
 
+
+/**
+ * change colors (for example, if backgroun-color and color is whith)
+ * 
+ * @param {object} pokemon - passes the object
+ */
+function changeColorsOpenTask(pokemon) {
+    if (pokemon == 'normal') {
+        document.getElementById('openPokadex').classList.add('changeColor');
+        document.getElementById('backArrow').classList.add('changeArrow');
+    } else if (pokemon == 'electric') {
+        document.getElementById('openPokadex').classList.add('changeColor');
+        document.getElementById('backArrow').classList.add('changeArrow');
+    } else if (pokemon == 'ice') {
+        document.getElementById('openPokadex').classList.add('changeColor');
+        document.getElementById('backArrow').classList.add('changeArrow');
+    }
+}
+
+
+/**
+ * search values in array and give back to openTask()
+ * 
+ * @param {number} i - passes the position of the object
+ */
+function values(i) {
+    let order = allPokemons[i]['id'];
+        document.getElementById('openPokemonImg').src = allPokemons[i]['sprites']['other']['dream_world']['front_default'];
+        let height = allPokemons[i]['height'];
+        let weight = document.getElementById('weight').innerHTML = allPokemons[i]['weight'];
+        document.getElementById('hp').innerHTML = allPokemons[i]['stats']['0']['base_stat'];
+        document.getElementById('attack').innerHTML = allPokemons[i]['stats']['1']['base_stat'];
+        document.getElementById('defense').innerHTML = allPokemons[i]['stats']['2']['base_stat'];
+        document.getElementById('spAtk').innerHTML = allPokemons[i]['stats']['3']['base_stat'];
+        document.getElementById('spDef').innerHTML = allPokemons[i]['stats']['4']['base_stat'];
+        document.getElementById('speed').innerHTML = allPokemons[i]['stats']['5']['base_stat'];
+        calculate(order, height, weight);
+}
 
 /**
  * calculate the height ans add strings

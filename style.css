@@ -26,15 +26,6 @@ h2 {
     margin-left: 20%;
 }
 
-.inputBtn {
-    position: absolute;
-    top: 0;
-    margin-top: 112px;
-    left: 0;
-    margin-left: 48px;
-    display: flex;
-    align-items: center;
-}
 
 .input {
     position: absolute;
@@ -49,6 +40,7 @@ h2 {
     margin-right: 8px;
     border-radius: 5px;
     padding-left: 8px;
+    outline: none;
 }
 
 #btn {
