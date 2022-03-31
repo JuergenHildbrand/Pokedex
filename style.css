@@ -36,7 +36,14 @@ h2 {
     align-items: center;
 }
 
-#input {
+.input {
+    position: absolute;
+    top: 0;
+    margin-top: 112px;
+    left: 0;
+    margin-left: 48px;
+    display: flex;
+    align-items: center;
     height: 24px;
     width: 200px;
     margin-right: 8px;
@@ -92,7 +99,6 @@ h2 {
     height: 140px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     color: white;
 }
 
@@ -205,52 +211,52 @@ h2 {
 /* background colors */
 
 .grass {
-    background-color: rgb(86, 206, 82);
+    background-color: rgba(86, 206, 82, 0.9);
 }
 .fire {
-    background-color: rgb(229, 110, 114);
+    background-color: rgba(229, 110, 114, 0.9);
 }
 .water {
-    background-color: rgb(132, 212, 243);
+    background-color: rgba(132, 212, 243, 0.9);
 }
 .electric {
-    background-color: rgb(255, 255, 163);
+    background-color: rgba(255, 255, 163, 0.9);
 }
 .bug {
-    background-color: rgb(173, 173, 173);
+    background-color: rgba(173, 173, 173, 0.9);
 }
 .normal {
-    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.9);
 }
 .poison {
-    background-color: rgb(178, 107, 180);
+    background-color: rgba(178, 107, 180, 0.9);
 }
 .fighting {
-    background-color: rgb(199, 198, 216);
+    background-color: rgba(199, 198, 216, 0.9);
 }
 .ground {
-    background-color: rgb(192, 136, 84);
+    background-color: rgba(192, 136, 84, 0.9);
 }
 .fairy {
-    background-color: rgb(240, 174, 189);
+    background-color: rgba(240, 174, 189, 0.9);
 }
 .psychic {
-    background-color: rgb(184, 171, 411);
+    background-color: rgba(184, 171, 411, 0.9);
 }
 .rock {
-    background-color: rgb(201, 201, 201);
+    background-color: rgba(201, 201, 201, 0.9);
 }
 .ghost {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 .ice {
-    background-color: rgb(202, 240, 255);
+    background-color: rgba(202, 240, 255, 0.9);
 }
 .dark {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.9);
 }
 .dragon {
-    background-color: rgb(255, 37, 37);
+    background-color: rgba(255, 37, 37, 0.9);
 }
 
 

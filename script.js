@@ -1,7 +1,8 @@
 let allPokemons = [];
+let searchPokemon = [];
 
 async function loadPokemon() {
-    for (let id = 1; id < 100; id++) {
+    for (let id = 1; id < 20; id++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${id}`;
         let response = await fetch(url);
         let currentPokemon = await response.json();
@@ -9,11 +10,11 @@ async function loadPokemon() {
         allPokemons.push(currentPokemon);
     }
     renderPokemons();
-    setTimeout(loadPokemons, 1200)
+    setTimeout(loadPokemons, 1500)
 }
 
 async function loadPokemons() {
-    for (let id = 101; id < 200; id++) {
+    for (let id = 21; id < 304; id++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${id}`;
         let response = await fetch(url);
         let currentPokemon = await response.json();
@@ -23,15 +24,14 @@ async function loadPokemons() {
     renderPokemons();
 }
 
-
-function renderPokemons() {
+function renderSearchPokemons() {
     let content = document.getElementById('pokedex');
     content.innerHTML = '';
-    for (let i = 0; i < allPokemons.length; i++) {
-        let pokemon = allPokemons[i];
+    for (let i = 0; i < searchPokemon[0].length; i++) {
+        let pokemon = searchPokemon[0][i];
         let name = pokemon['name'];
         let type1 = pokemon['types']['0']['type']['name'];
-        let order = allPokemons[i]['order'];
+        let order = searchPokemon[0][i]['id'];
         content.innerHTML += `
             <div class="${pokemon['types']['0']['type']['name']}" id="pokadexInfo" onclick="openTask(${i})">
                 <div class="nameType" id="nameType${i}">
@@ -54,16 +54,50 @@ function renderPokemons() {
 }
 
 
+function renderPokemons() {
+    if (searchPokemon.length > 0) {
+        renderSearchPokemons();
+    } else {
+        let content = document.getElementById('pokedex');
+        content.innerHTML = '';
+        for (let i = 0; i < allPokemons.length; i++) {
+            let pokemon = allPokemons[i];
+            let name = pokemon['name'];
+            let type1 = pokemon['types']['0']['type']['name'];
+            let order = allPokemons[i]['id'];
+            content.innerHTML += `
+            <div class="${pokemon['types']['0']['type']['name']}" id="pokadexInfo" onclick="openTask(${i})">
+                <div class="nameType" id="nameType${i}">
+                    <h1 class="h1">${name[0].toUpperCase() + name.substring(1)}</h1>
+                    <div class="type"><b>${type1[0].toUpperCase() + type1.substring(1)}</b></div>
+                    <div class="order"># ${order}</div>
+                </div>
+                <img id="pokemonImg${i}" class="pokemonImg">
+            </div>
+        `;
+            document.getElementById('pokemonImg' + i).src = pokemon['sprites']['other']['dream_world']['front_default'];
+            if (pokemon['types']['0']['type']['name'] == 'normal') {
+                document.getElementById('nameType' + i).classList.add('changeColor');
+            } else if (pokemon['types']['0']['type']['name'] == 'electric') {
+                document.getElementById('nameType' + i).classList.add('changeColor');
+            } else if (pokemon['types']['0']['type']['name'] == 'ice') {
+                document.getElementById('nameType' + i).classList.add('changeColor');
+            }
+        }
+    }
+}
+
+
 function openTask(i) {
     document.getElementById('overlay').classList.remove('d-none');
     document.getElementById('openPokedexCont').classList.remove('d-none');
     let pokemon = allPokemons[i]['types']['0']['type']['name'];
     let name = allPokemons[i]['name'];
     name = name[0].toUpperCase() + name.substring(1);
-    let type = allPokemons[i]['types']['0']['type']['name'];4
+    let type = allPokemons[i]['types']['0']['type']['name']; 4
     type = type[0].toUpperCase() + type.substring(1);
     document.getElementById('openPokedexCont').innerHTML = generateHTML(name, pokemon, type);
-    let order = allPokemons[i]['order'];
+    let order = allPokemons[i]['id'];
     document.getElementById('openPokemonImg').src = allPokemons[i]['sprites']['other']['dream_world']['front_default'];
     let height = allPokemons[i]['height'];
     let weight = document.getElementById('weight').innerHTML = allPokemons[i]['weight'];
@@ -171,7 +205,7 @@ function closeTask() {
 
 
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     const input = document.querySelector('input');
     input.addEventListener('input', filterName);
 })
@@ -180,6 +214,8 @@ function filterName(e) {
 
     let filteredlist = allPokemons.filter(p => p.name.startsWith(e.srcElement.value));
     console.log(filteredlist);
-    renderPokemons(filteredlist);
+    searchPokemon = [];
+    searchPokemon.push(filteredlist)
+    renderSearchPokemons();
     console.log(e.srcElement.value)
 }
