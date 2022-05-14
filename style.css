@@ -1,15 +1,18 @@
 body {
     margin: 0;
-    height: 100vh;
+    margin-top: -80px;
+    height: auto;
     width: 100%;
     background: url('./img/pokemonBackgrond.jpg');
-    background-position: center;
+    background-position: top;
+    background-repeat: repeat-y;
     font-family: 'open sans';
 }
 
 .bold {
     font-weight: bold;
 }
+
 
 .h1 {
     margin-block-start: 0.2em;
@@ -26,47 +29,35 @@ h2 {
     margin-left: 20%;
 }
 
-
-.input {
-    position: absolute;
-    top: 0;
-    margin-top: 112px;
-    left: 0;
-    margin-left: 48px;
+.header {
+    padding-top: 100px;
     display: flex;
     align-items: center;
-    height: 24px;
+}
+
+.input {
+    margin-left: 48px;
+    height: 32px;
     width: 200px;
     margin-right: 8px;
     border-radius: 5px;
     padding-left: 8px;
-    outline: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 16px;
 }
 
-#btn {
-    height: 30px;
-    background-color: blue;
-    border: 0px solid;
-    border-radius: 5px;
-    padding: 8px;
-    color: white;
+.input:hover {
+    border: 1px solid white;
 }
 
-#btn:hover {
-    cursor: pointer;
-    filter: brightness(80%);
+
+#pokedexs {
+    margin-top: 48px;
     
 }
 
-#pokedexs {
-    min-width: 90%;
-    display: flex;
-    flex-wrap: wrap;
-    z-index: 997;
-    margin-top: 80px;
-}
-
 #pokedex {
+    min-width: 90%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
